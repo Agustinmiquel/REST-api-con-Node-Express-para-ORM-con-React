@@ -2,34 +2,37 @@ const Producto = require('../models/Productos');
 
 const multer = require('multer');
 const shortid = require('shortid');
-const fs = require('fs');
-const Productos = require('../models/Productos');
 
 const configuracionMulter = {
     storage: fileStorage = multer.diskStorage({
         destination: (req, file, cb) => {
-            cb(null, __dirname + '../../uploads/');
+            cb(null, __dirname + '../../uploads');
         },
         filename: (req, file, cb) => {
             const extension = file.mimetype.split('/')[1];
             cb(null, `${shortid.generate()}.${extension}`);
-        }
+        },
     }),
     fileFilter(req, file, cb) {
         if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+            if(!file){
+                throw new Error('No se proporciono una imagen');
+            }
             cb(null, true);
         } else {
             cb(new Error('Formato no válido'))
         }
     }
+
 }
 
 // Pasar la configiguración y el campo
 const upload = multer(configuracionMulter).single('imagen');
 
+
 // Sube un archivo
 exports.subirArchivo = (req, res, next) => {
-    upload(req, res, function (error) {
+    upload(req, res, async function (error) {
         if (error) {
             res.json({ mensaje: error })
         }
@@ -61,9 +64,7 @@ exports.mostrarProductos = async (req, res, next) =>{
 
     try {
         const producto = await Producto.find({})
-        res.json({
-            producto
-        })
+        res.json(producto)
     } catch (error) {
         console.log(error)
         next();
@@ -121,6 +122,16 @@ exports.eliminarProducto = async (req,res,next)=>{
         res.json({
             mensaje: 'El producto se ha eliminado'
         })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.BuscarProducto = async (req, res, next) => {
+    try {
+        const { query } = req.params;
+        const producto = await Producto.find({nombre: new RegExp(query, 'i')});
+        res.json(producto);
     } catch (error) {
         console.log(error);
     }

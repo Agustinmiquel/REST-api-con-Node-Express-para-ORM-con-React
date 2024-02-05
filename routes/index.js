@@ -4,6 +4,7 @@ const clienteController = require('../controllers/clienteController');
 const productosController = require('../controllers/productosController'); 
 const pedidosController = require('../controllers/pedidosController');
 
+
 module.exports = function(){
 
     // Agregar clientes
@@ -23,7 +24,7 @@ module.exports = function(){
 
     // nuevos productos:
     router.post('/productos',
-    productosController.subirArchivo, 
+    productosController.subirArchivo,
     productosController.nuevoProducto);
 
     // mostrar productos:
@@ -33,12 +34,15 @@ module.exports = function(){
     router.get('/productos/:idProducto', productosController.mostrarIDProducto);
 
     // Actualizar Productos
-    router.put('/productos/:idProducto',
+    router.put('/productos/editar/:idProducto',
     productosController.subirArchivo, 
-    productosController.updateProducto)
+    productosController.updateProducto);
 
     // Eliminar Productos:
     router.delete('/productos/:idProducto', productosController.eliminarProducto)
+
+    // Busqueda de productos
+    router.post('/productos/busqueda/:query', productosController.BuscarProducto);
 
     // PEDIDOS: 
 
