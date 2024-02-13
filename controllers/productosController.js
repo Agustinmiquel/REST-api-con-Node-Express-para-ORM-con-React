@@ -134,5 +134,6 @@ exports.BuscarProducto = async (req, res, next) => {
         res.json(producto);
     } catch (error) {
         console.log(error);
+        next();
     }
 }
