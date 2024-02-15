@@ -13,7 +13,6 @@ module.exports = function(){
     
     // Agregar clientes
     router.post('/clientes',
-    auth,
     clienteController.nuevoCliente);
 
     // Obtener todos los clientes:
@@ -23,23 +22,20 @@ module.exports = function(){
 
     // obtener cliente por ID.
     router.get('/clientes/:idCliente', 
-    auth, 
     clienteController.mostrarId)
 
     // Actualizar Cliente
-    router.put('/clientes/:idCliente', 
-    auth, 
+    router.put('/clientes/editar/:idCliente',  
     clienteController.actualizarCliente);
 
     // Eliminar un Cliente:
     router.delete('/clientes/:idCliente', 
-    auth, 
     clienteController.eliminarCliente)
 
     // PRODUCTOS
 
     // nuevos productos:
-    router.post('/productos', auth,
+    router.post('/productos',
     productosController.subirArchivo,
     productosController.nuevoProducto);
 
@@ -54,26 +50,23 @@ module.exports = function(){
     productosController.mostrarIDProducto);
 
     // Actualizar Productos
-    router.put('/productos/editar/:idProducto', auth,
+    router.put('/productos/editar/:idProducto',
     productosController.subirArchivo, 
     productosController.updateProducto);
 
     // Eliminar Productos:
-    router.delete('/productos/:idProducto', 
-    auth,
+    router.delete('/productos/:idProducto',
     productosController.eliminarProducto)
     
     // Busqueda de productos
     router.post('/productos/busqueda/:query',
-    auth,
     productosController.BuscarProducto);
     
 
     // PEDIDOS: 
     
     // nuevo pedido:
-    router.post('/pedidos/nuevo/:usuario',
-    auth, 
+    router.post('/pedidos/nuevo/:usuario', 
     pedidosController.agregarPedidos);
     
     // mostrar pedidos: 
@@ -88,14 +81,14 @@ module.exports = function(){
 
     // Actualizar producto: 
     router.put('/clientes/:IdProducto',
-    auth,
     pedidosController.actualizarPedido)
 
-    // Eliminar Producto: 
-    router.delete('/clientes/:idPedido', 
-    auth, 
-    pedidosController.eliminarPedido)
+    // Eliminar un pedido
+    router.delete('/pedidos/:idPedido', pedidosController.eliminarPedido);
 
+    // Eliminar Producto: 
+    router.delete('/clientes/:idPedido',
+    pedidosController.eliminarPedido)
 
     // USUARIOS
     router.post('/crear-cuenta',
