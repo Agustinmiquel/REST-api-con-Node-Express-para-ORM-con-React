@@ -12,7 +12,7 @@ module.exports = (req,res,next) =>{
     }
 
     // obtener el token y verificarlo
-    const token = authHeader.split(' ')[1]
+    const token = authHeader.split(' ')[1];
     let revisarToken;
     try {
         revisarToken = jwt.verify(token, 'LLAVESECRETA');
