@@ -7,6 +7,11 @@ require('dotenv').config({path:'variables.env'});
 //Permite que un cliente se conecte a otro servidor
 const cors = require('cors');
 
+// Iniciar Servidor
+const app = express();
+// habilitar la carpeta publica
+app.use(express.static('uploads'));
+
 // DEFINIR Dominio para recibir peticiones
 const whitelist = [process.env.FRONTEND_URL];
 const corsOptions = {
@@ -24,11 +29,6 @@ mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DB_URL,{
     useNewUrlParser: true,
 });
-
-// Iniciar Servidor
-const app = express();
-// habilitar la carpeta publica
-app.use(express.static('uploads'));
 
 // habilitar el BodyParser: 
 app.use(bodyparser.json());
